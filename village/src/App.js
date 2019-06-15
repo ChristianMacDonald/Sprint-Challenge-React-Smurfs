@@ -34,6 +34,16 @@ class App extends Component {
       });
   }
 
+  removeSmurf = id => {
+    Axios.delete(`http://localhost:3333/smurfs/${id}`)
+      .then(result => {
+        this.setState({ smurfs: result.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   render() {
     return (
       <div className="App">
@@ -42,7 +52,7 @@ class App extends Component {
           <br />
           <NavLink to="/smurf-form">Add Smurf</NavLink>
         </nav>
-        <Route exact path="/" render={props => <Smurfs {...props} smurfs={this.state.smurfs} />} />
+        <Route exact path="/" render={props => <Smurfs {...props} smurfs={this.state.smurfs} removeSmurfHandler={this.removeSmurf} />} />
         <Route path="/smurf-form" render={props => <SmurfForm {...props} addSmurfHandler={this.addSmurf} />} />
       </div>
     );
